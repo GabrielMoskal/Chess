@@ -1,10 +1,12 @@
 package mycompany.app.board;
 
 import mycompany.app.exception.InvalidPositionException;
+import mycompany.app.utility.Point;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertArrayEquals;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class PositionConverterTest {
 
@@ -17,18 +19,18 @@ public class PositionConverterTest {
 
     @Test
     public void convertsPositionProperly() {
-        int[] expected = new int[] {0, 0};
+        Point expected = new Point(0, 0);
         assertConvertsPositionProperly(expected, 'a', 1);
     }
 
-    private void assertConvertsPositionProperly(int[] expected, char xPosition, int yPosition) {
-        int[] result = converter.convert(xPosition, yPosition);
-        assertArrayEquals(expected, result);
+    private void assertConvertsPositionProperly(Point expected, char xPosition, int yPosition) {
+        Point result = converter.convert(xPosition, yPosition);
+        assertEquals(expected, result);
     }
 
     @Test
     public void convertsOtherPositionProperly() {
-        int[] expected = new int[] {2, 3};
+        Point expected = new Point(2, 3);
         assertConvertsPositionProperly(expected, 'c', 4);
     }
 

@@ -1,20 +1,37 @@
 package mycompany.app.pieces;
 
-import mycompany.app.exception.InvalidPositionException;
+import mycompany.app.board.PositionConverter;
+import mycompany.app.utility.Point;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Bishop {
-    int x;
-    int y;
 
-    public Bishop(int x, int y) {
-        this.x = x;
-        this.y = y;
+    private Point position;
+    private final PositionConverter converter;
+
+    public Bishop() {
+        this.converter = new PositionConverter();
     }
 
-    public int[][] findPossibleMoves() {
-        return new int[][] {
-                {1, 1}, {0, 2}, {3, 1}, {4, 2}, {5, 3}, {6, 4}, {7, 5}
-        };
+    public Bishop(char x, int y) {
+        this();
+        this.position = converter.convert(x, y);
+    }
+
+    public List<Point> findPossibleMoves() {
+
+        return new ArrayList<>(Arrays.asList(
+                new Point(1, 1),
+                new Point(0, 2),
+                new Point(3, 1),
+                new Point(4, 2),
+                new Point(5, 3),
+                new Point(6, 4),
+                new Point(7, 5)
+        ));
     }
 
 }

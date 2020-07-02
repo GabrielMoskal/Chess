@@ -1,6 +1,7 @@
 package mycompany.app.board;
 
 import mycompany.app.exception.InvalidPositionException;
+import mycompany.app.utility.Point;
 
 public class PositionConverter {
 
@@ -12,18 +13,13 @@ public class PositionConverter {
         this.highest = 7;
     }
 
-    public PositionConverter(int lowest, int highest) {
-        this.lowest = lowest;
-        this.highest = highest;
-    }
-
-    public int[] convert(char xPosition, int yPosition) {
+    public Point convert(char xPosition, int yPosition) {
         int x = convertCharPositionToIntRange(xPosition);
         int y = convertIntPositionToIntRange(yPosition);
 
         checkPositionsInRange(x, y);
 
-        return new int[] {x, y};
+        return new Point(x, y);
     }
 
     private int convertCharPositionToIntRange(char position) {
