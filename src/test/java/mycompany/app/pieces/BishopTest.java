@@ -4,9 +4,7 @@ import mycompany.app.board.PositionConverter;
 import mycompany.app.utility.Point;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -16,42 +14,61 @@ public class BishopTest {
 
     @Test
     public void movesOnEmptyBoard() {
-        List<Point> expected = new ArrayList<>(Arrays.asList(
-                makePointWithGivenPosition('b', 2),
-                makePointWithGivenPosition('a', 3),
-                makePointWithGivenPosition('d', 2),
-                makePointWithGivenPosition('e', 3),
-                makePointWithGivenPosition('f', 4),
-                makePointWithGivenPosition('g', 5),
-                makePointWithGivenPosition('h', 6)
-        ));
+        List<Point> expected = makePoints(new int[] {
+                'b', 2,
+                'a', 3,
+                'd', 2,
+                'e', 3,
+                'f', 4,
+                'g', 5,
+                'h', 6
+        });
         bishop = new Bishop('c', 1);
+
         List<Point> result = bishop.findPossibleMoves();
+        assertListsContainEqualContent(expected, result);
+    }
+
+    private List<Point> makePoints(int[] points) {
+        List<Point> pointList = new LinkedList<>();
+        PositionConverter converter = new PositionConverter();
+        for (int i = 0; i < points.length; i += 2) {
+            Point point = converter.convert((char)points[i], points[i + 1]);
+            pointList.add(point);
+        }
+        return pointList;
+    }
+
+    private void assertListsContainEqualContent(List<Point> expected, List<Point> result) {
+        sort(expected);
+        sort(result);
         assertEquals(expected, result);
     }
 
-    private Point makePointWithGivenPosition(char x, int y) {
-        PositionConverter converter = new PositionConverter();
-        return converter.convert(x, y);
+    private void sort(List<Point> pointList) {
+        Comparator<Point> comparator = (Point a, Point b) ->
+                a.getX() == b.getX() ? a.getY() - b.getY() : a.getX() - b.getX();
+
+        pointList.sort(comparator);
     }
 
     @Test
     public void movesOnEmptyBoardDifferentLocation() {
-        List<Point> expected = new ArrayList<>(Arrays.asList(
-                makePointWithGivenPosition('d', 2),
-                makePointWithGivenPosition('c', 1),
-                makePointWithGivenPosition('d', 4),
-                makePointWithGivenPosition('c', 5),
-                makePointWithGivenPosition('b', 6),
-                makePointWithGivenPosition('a', 7),
-                makePointWithGivenPosition('f', 2),
-                makePointWithGivenPosition('g', 1),
-                makePointWithGivenPosition('f', 4),
-                makePointWithGivenPosition('g', 5),
-                makePointWithGivenPosition('h', 6)
-                ));
+        List<Point> expected = makePoints(new int[] {
+                'd', 2,
+                'c', 1,
+                'd', 4,
+                'c', 5,
+                'b', 6,
+                'a', 7,
+                'f', 2,
+                'g', 1,
+                'f', 4,
+                'g', 5,
+                'h', 6
+        });
         bishop = new Bishop('e', 3);
         List<Point> result = bishop.findPossibleMoves();
-        assertEquals(expected, result);
+        assertListsContainEqualContent(expected, result);
     }
 }
