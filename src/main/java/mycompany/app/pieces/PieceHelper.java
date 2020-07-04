@@ -1,41 +1,48 @@
 package mycompany.app.pieces;
 
-import mycompany.app.exception.InvalidPositionException;
+import lombok.Getter;
 import mycompany.app.utility.Point;
+import mycompany.app.utility.PositionValidator;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class PieceHelper {
 
-    private final Point position;
-    private final int boardSize;
+    @Getter
+    public enum MoveDirection {
+        Up(0, 1), Down(0, -1),
+        Left(-1, 0), Right(1, 0),
+        UpLeft(-1, 1), UpRight(1, 1),
+        DownLeft(-1, -1), DownRight(1, -1);
 
-    public PieceHelper(Point position, int boardSize) {
-        this.position = position;
-        this.boardSize = boardSize;
-        checkPositionInIndexRange();
-    }
+        private final int xFactor;
+        private final int yFactor;
 
-    private void checkPositionInIndexRange() {
-        if (!isPositionValid()) {
-            throw new InvalidPositionException("Position should be in range between 0 and " + (boardSize - 1));
+        MoveDirection(int xFactor, int yFactor) {
+            this.xFactor = xFactor;
+            this.yFactor = yFactor;
         }
     }
 
-    private boolean isPositionValid() {
-        return isInRange(position.getX()) && isInRange(position.getY());
+    private final Point position;
+    private final PositionValidator validator;
+
+    public PieceHelper(Point position, PositionValidator validator) {
+        this.position = position;
+        this.validator = validator;
+        validator.checkInRange(position);
     }
 
-    private boolean isInRange(int num) {
-        return (num >= 0) && (num < boardSize);
+    public List<Point> findMovesByFactor(MoveDirection direction) {
+        return findMovesByFactor(direction.getXFactor(), direction.getYFactor());
     }
 
     public List<Point> findMovesByFactor(int xFactor, int yFactor) {
         List<Point> points = new LinkedList<>();
         int x = position.getX() + xFactor;
         int y = position.getY() + yFactor;
-        while (isInRange(x) && isInRange(y)) {
+        while (validator.isInRange(x) && validator.isInRange(y)) {
             points.add(new Point(x, y));
             x += xFactor;
             y += yFactor;

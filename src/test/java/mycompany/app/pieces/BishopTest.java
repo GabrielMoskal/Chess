@@ -55,7 +55,12 @@ public class BishopTest {
     }
 
     @Test(expected = InvalidPositionException.class)
-    public void whenPositionDoesntMatchBoardThrowsException() {
-        new Bishop('c', 3, 2);
+    public void xPositionValueHigherThanMaxIndexThrowsException() {
+        new Bishop('c', 2, 2);
+    }
+
+    @Test(expected = InvalidPositionException.class)
+    public void yPositionValueHigherThanMaxIndexThrowsException() {
+        new Bishop('b', 3, 2);
     }
 }

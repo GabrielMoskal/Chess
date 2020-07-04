@@ -2,6 +2,7 @@ package mycompany.app.pieces;
 
 import mycompany.app.exception.InvalidPositionException;
 import mycompany.app.utility.Point;
+import mycompany.app.utility.PositionValidator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,12 +13,14 @@ public class PieceHelperTest {
     PiecesTestUtil testUtil;
     Point position;
     PieceHelper helper;
+    PositionValidator validator;
 
     @Before
     public void setUp() {
         testUtil = new PiecesTestUtil();
         position = new Point('e', 4);
-        helper = new PieceHelper(position, 8);
+        validator = new PositionValidator(new Point(0, 7));
+        helper = new PieceHelper(position, validator);
     }
 
     @Test
@@ -90,11 +93,23 @@ public class PieceHelperTest {
 
     @Test(expected = InvalidPositionException.class)
     public void xPositionValueHigherThanMaxIndexThrowsException() {
-        new PieceHelper(new Point('c', 2), 2);
+        new PieceHelper(new Point(8, 2), validator);
     }
 
     @Test(expected = InvalidPositionException.class)
     public void yPositionValueHigherThanMaxIndexThrowsException() {
-        new PieceHelper(new Point('b', 3), 2);
+        new PieceHelper(new Point(1, 8), validator);
+    }
+
+    @Test
+    public void movesCorrectlyAccordingToEnum() {
+        List<Point> expected = testUtil.makePoints(new int[]{
+                'e', 5,
+                'e', 6,
+                'e', 7,
+                'e', 8
+        });
+        List<Point> result = helper.findMovesByFactor(PieceHelper.MoveDirection.Up);
+        testUtil.assertListsContainEqualContent(expected, result);
     }
 }

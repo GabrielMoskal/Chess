@@ -1,62 +1,28 @@
 package mycompany.app.pieces;
 
-import mycompany.app.exception.InvalidPositionException;
 import mycompany.app.utility.Point;
+import mycompany.app.pieces.PieceHelper.MoveDirection;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class Rook {
+public class Rook extends Piece {
 
-    private Point position;
-    private final int boardSize;
-
-    public Rook(int boardSize) {
-        this.boardSize = boardSize;
-    }
+    private final PieceHelper helper;
 
     public Rook(char x, int y, int boardSize) {
-        this(boardSize);
-        this.position = new Point(x, y);
-        checkPositionInIndexRange();
-    }
-
-    private void checkPositionInIndexRange() {
-        if (!isPositionValid()) {
-            throw new InvalidPositionException("Position should be in range between 0 and " + (boardSize - 1));
-        }
-    }
-
-    private boolean isPositionValid() {
-        return isInRange(position.getX()) && isInRange(position.getY());
-    }
-
-    private boolean isInRange(int num) {
-        return (num >= 0) && (num < boardSize);
+        super(x, y, boardSize);
+        this.helper = new PieceHelper(this.getPosition(), this.getValidator());
     }
 
     public List<Point> findPossibleMoves() {
         List<Point> points = new LinkedList<>();
 
-        // move right
-        addLine(points, 1, 0);
-        // move down
-        addLine(points, 0, -1);
-        // move left
-        addLine(points, -1, 0);
-        // move up
-        addLine(points, 0, 1);
+        points.addAll(helper.findMovesByFactor(MoveDirection.Right));
+        points.addAll(helper.findMovesByFactor(MoveDirection.Down));
+        points.addAll(helper.findMovesByFactor(MoveDirection.Left));
+        points.addAll(helper.findMovesByFactor(MoveDirection.Up));
 
         return points;
-    }
-
-    private void addLine(List<Point> pointList, int xFactor, int yFactor) {
-        int x = position.getX() + xFactor;
-        int y = position.getY() + yFactor;
-        while (isInRange(x) && isInRange(y)) {
-            pointList.add(new Point(x, y));
-            x += xFactor;
-            y += yFactor;
-        }
     }
 }

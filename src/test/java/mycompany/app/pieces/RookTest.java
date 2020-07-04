@@ -66,7 +66,12 @@ public class RookTest {
     }
 
     @Test(expected = InvalidPositionException.class)
-    public void whenPositionDoesntMatchBoardThrowsException() {
-        new Rook('c', 3, 2);
+    public void xPositionValueHigherThanMaxIndexThrowsException() {
+        new Rook('c', 2, 2);
+    }
+
+    @Test(expected = InvalidPositionException.class)
+    public void yPositionValueHigherThanMaxIndexThrowsException() {
+        new Rook('b', 3, 2);
     }
 }
