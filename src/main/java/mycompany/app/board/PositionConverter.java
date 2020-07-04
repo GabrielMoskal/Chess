@@ -13,6 +13,10 @@ public class PositionConverter {
         this.highest = 7;
     }
 
+    public PositionConverter(int size) {
+        this.highest = size - 1;
+    }
+
     public Point convert(char xPosition, int yPosition) {
         int x = convertCharPositionToIntRange(xPosition);
         int y = convertIntPositionToIntRange(yPosition);

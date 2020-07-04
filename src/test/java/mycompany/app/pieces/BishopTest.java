@@ -1,20 +1,24 @@
 package mycompany.app.pieces;
 
-import mycompany.app.board.PositionConverter;
 import mycompany.app.utility.Point;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-
 public class BishopTest {
 
     private Bishop bishop;
+    private PiecesTestUtil testUtil;
+
+    @Before
+    public void setup() {
+        testUtil = new PiecesTestUtil();
+    }
 
     @Test
     public void movesOnEmptyBoard() {
-        List<Point> expected = makePoints(new int[] {
+        List<Point> expected = testUtil.makePoints(new int[] {
                 'b', 2,
                 'a', 3,
                 'd', 2,
@@ -23,38 +27,15 @@ public class BishopTest {
                 'g', 5,
                 'h', 6
         });
-        bishop = new Bishop('c', 1);
+        bishop = new Bishop('c', 1, 8);
 
         List<Point> result = bishop.findPossibleMoves();
-        assertListsContainEqualContent(expected, result);
-    }
-
-    private List<Point> makePoints(int[] points) {
-        List<Point> pointList = new LinkedList<>();
-        PositionConverter converter = new PositionConverter();
-        for (int i = 0; i < points.length; i += 2) {
-            Point point = converter.convert((char)points[i], points[i + 1]);
-            pointList.add(point);
-        }
-        return pointList;
-    }
-
-    private void assertListsContainEqualContent(List<Point> expected, List<Point> result) {
-        sort(expected);
-        sort(result);
-        assertEquals(expected, result);
-    }
-
-    private void sort(List<Point> pointList) {
-        Comparator<Point> comparator = (Point a, Point b) ->
-                a.getX() == b.getX() ? a.getY() - b.getY() : a.getX() - b.getX();
-
-        pointList.sort(comparator);
+        testUtil.assertListsContainEqualContent(expected, result);
     }
 
     @Test
     public void movesOnEmptyBoardDifferentLocation() {
-        List<Point> expected = makePoints(new int[] {
+        List<Point> expected = testUtil.makePoints(new int[] {
                 'd', 2,
                 'c', 1,
                 'd', 4,
@@ -67,8 +48,8 @@ public class BishopTest {
                 'g', 5,
                 'h', 6
         });
-        bishop = new Bishop('e', 3);
+        bishop = new Bishop('e', 3, 8);
         List<Point> result = bishop.findPossibleMoves();
-        assertListsContainEqualContent(expected, result);
+        testUtil.assertListsContainEqualContent(expected, result);
     }
 }

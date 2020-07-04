@@ -6,18 +6,18 @@ import mycompany.app.utility.Point;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Bishop {
+public class Rook {
 
     private Point position;
     private final int boardSize;
     private final PositionConverter converter;
 
-    public Bishop(int boardSize) {
+    public Rook(int boardSize) {
         this.boardSize = boardSize;
         this.converter = new PositionConverter(boardSize);
     }
 
-    public Bishop(char x, int y, int boardSize) {
+    public Rook(char x, int y, int boardSize) {
         this(boardSize);
         this.position = converter.convert(x, y);
     }
@@ -25,19 +25,19 @@ public class Bishop {
     public List<Point> findPossibleMoves() {
         List<Point> points = new LinkedList<>();
 
-        // move up-right
-        addDiagonal(points, 1, 1);
-        // move up-left
-        addDiagonal(points, -1, 1);
-        // move down-left
-        addDiagonal(points, -1, -1);
-        // move down-right
-        addDiagonal(points, 1, -1);
+        // move right
+        addLine(points, 1, 0);
+        // move down
+        addLine(points, 0, -1);
+        // move left
+        addLine(points, -1, 0);
+        // move up
+        addLine(points, 0, 1);
 
         return points;
     }
 
-    private void addDiagonal(List<Point> pointList, int xFactor, int yFactor) {
+    private void addLine(List<Point> pointList, int xFactor, int yFactor) {
         int x = position.getX() + xFactor;
         int y = position.getY() + yFactor;
         while (isInRange(x) && isInRange(y)) {
