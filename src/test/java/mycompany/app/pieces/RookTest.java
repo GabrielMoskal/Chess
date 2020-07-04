@@ -1,5 +1,6 @@
 package mycompany.app.pieces;
 
+import mycompany.app.exception.InvalidPositionException;
 import mycompany.app.utility.Point;
 import org.junit.Before;
 import org.junit.Test;
@@ -62,5 +63,10 @@ public class RookTest {
 
         List<Point> result = rook.findPossibleMoves();
         testUtil.assertListsContainEqualContent(expected, result);
+    }
+
+    @Test(expected = InvalidPositionException.class)
+    public void whenPositionDoesntMatchBoardThrowsException() {
+        new Rook('c', 3, 2);
     }
 }

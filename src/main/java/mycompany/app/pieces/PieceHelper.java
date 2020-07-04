@@ -27,6 +27,10 @@ public class PieceHelper {
         return isInRange(position.getX()) && isInRange(position.getY());
     }
 
+    private boolean isInRange(int num) {
+        return (num >= 0) && (num < boardSize);
+    }
+
     public List<Point> findMovesByFactor(int xFactor, int yFactor) {
         List<Point> points = new LinkedList<>();
         int x = position.getX() + xFactor;
@@ -37,9 +41,5 @@ public class PieceHelper {
             y += yFactor;
         }
         return points;
-    }
-
-    private boolean isInRange(int num) {
-        return (num >= 0) && (num < boardSize);
     }
 }

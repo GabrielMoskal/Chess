@@ -1,5 +1,6 @@
 package mycompany.app.pieces;
 
+import mycompany.app.exception.InvalidPositionException;
 import mycompany.app.utility.Point;
 import org.junit.Before;
 import org.junit.Test;
@@ -51,5 +52,10 @@ public class BishopTest {
         bishop = new Bishop('e', 3, 8);
         List<Point> result = bishop.findPossibleMoves();
         testUtil.assertListsContainEqualContent(expected, result);
+    }
+
+    @Test(expected = InvalidPositionException.class)
+    public void whenPositionDoesntMatchBoardThrowsException() {
+        new Bishop('c', 3, 2);
     }
 }

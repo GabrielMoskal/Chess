@@ -1,6 +1,6 @@
 package mycompany.app.pieces;
 
-import mycompany.app.board.PositionConverter;
+import mycompany.app.exception.InvalidPositionException;
 import mycompany.app.utility.Point;
 
 import java.util.LinkedList;
@@ -10,16 +10,29 @@ public class Bishop {
 
     private Point position;
     private final int boardSize;
-    private final PositionConverter converter;
 
     public Bishop(int boardSize) {
         this.boardSize = boardSize;
-        this.converter = new PositionConverter(boardSize);
     }
 
     public Bishop(char x, int y, int boardSize) {
         this(boardSize);
-        this.position = converter.convert(x, y);
+        this.position = new Point(x, y);
+        checkPositionInIndexRange();
+    }
+
+    private void checkPositionInIndexRange() {
+        if (!isPositionValid()) {
+            throw new InvalidPositionException("Position should be in range between 0 and " + (boardSize - 1));
+        }
+    }
+
+    private boolean isPositionValid() {
+        return isInRange(position.getX()) && isInRange(position.getY());
+    }
+
+    private boolean isInRange(int num) {
+        return (num >= 0) && (num < boardSize);
     }
 
     public List<Point> findPossibleMoves() {
@@ -45,9 +58,5 @@ public class Bishop {
             x += xFactor;
             y += yFactor;
         }
-    }
-
-    private boolean isInRange(int num) {
-        return (num >= 0) && (num < boardSize);
     }
 }

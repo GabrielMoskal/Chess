@@ -1,6 +1,5 @@
 package mycompany.app.pieces;
 
-import mycompany.app.board.PositionConverter;
 import mycompany.app.utility.Point;
 
 import java.util.Comparator;
@@ -13,9 +12,8 @@ public class PiecesTestUtil {
 
     public List<Point> makePoints(int[] points) {
         List<Point> pointList = new LinkedList<>();
-        PositionConverter converter = new PositionConverter();
         for (int i = 0; i < points.length; i += 2) {
-            Point point = converter.convert((char)points[i], points[i + 1]);
+            Point point = new Point((char)points[i], points[i + 1]);
             pointList.add(point);
         }
         return pointList;

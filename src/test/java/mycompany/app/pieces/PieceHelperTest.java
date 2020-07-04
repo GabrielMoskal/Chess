@@ -16,32 +16,75 @@ public class PieceHelperTest {
     @Before
     public void setUp() {
         testUtil = new PiecesTestUtil();
+        position = new Point('e', 4);
+        helper = new PieceHelper(position, 8);
     }
 
     @Test
-    public void findsCorrectMovesDiagonally() {
+    public void findsCorrectMovesUpRight() {
         List<Point> expected = testUtil.makePoints(new int[]{
-                'b', 2,
-                'c', 3,
-                'd', 4
+                'f', 5,
+                'g', 6,
+                'h', 7
         });
-        position = new Point('a', 1);
-        helper = new PieceHelper(position, 4);
         List<Point> result = helper.findMovesByFactor(1, 1);
         testUtil.assertListsContainEqualContent(expected, result);
     }
 
     @Test
-    public void findsCorrectMovesDiagonallyDecreasing() {
+    public void findsCorrectMovesUpLeft() {
         List<Point> expected = testUtil.makePoints(new int[]{
-                'e', 4,
+                'd', 5,
+                'c', 6,
+                'b', 7,
+                'a', 8
+        });
+        List<Point> result = helper.findMovesByFactor(-1, 1);
+        testUtil.assertListsContainEqualContent(expected, result);
+    }
+
+    @Test
+    public void findsCorrectMovesDownLeft() {
+        List<Point> expected = testUtil.makePoints(new int[]{
                 'd', 3,
                 'c', 2,
                 'b', 1
         });
-        position = new Point('f', 5);
-        helper = new PieceHelper(position, 6);
         List<Point> result = helper.findMovesByFactor(-1, -1);
+        testUtil.assertListsContainEqualContent(expected, result);
+    }
+
+    @Test
+    public void findsCorrectMovesDownRight() {
+        List<Point> expected = testUtil.makePoints(new int[]{
+                'f', 3,
+                'g', 2,
+                'h', 1
+        });
+        List<Point> result = helper.findMovesByFactor(1, -1);
+        testUtil.assertListsContainEqualContent(expected, result);
+    }
+
+    @Test
+    public void findsCorrectMovesUp() {
+        List<Point> expected = testUtil.makePoints(new int[]{
+                'e', 5,
+                'e', 6,
+                'e', 7,
+                'e', 8
+        });
+        List<Point> result = helper.findMovesByFactor(0, 1);
+        testUtil.assertListsContainEqualContent(expected, result);
+    }
+
+    @Test
+    public void findsCorrectMovesDown() {
+        List<Point> expected = testUtil.makePoints(new int[]{
+                'e', 3,
+                'e', 2,
+                'e', 1
+        });
+        List<Point> result = helper.findMovesByFactor(0, -1);
         testUtil.assertListsContainEqualContent(expected, result);
     }
 
@@ -53,32 +96,5 @@ public class PieceHelperTest {
     @Test(expected = InvalidPositionException.class)
     public void yPositionValueHigherThanMaxIndexThrowsException() {
         new PieceHelper(new Point('b', 3), 2);
-    }
-
-    @Test
-    public void findsCorrectMovesUpwards() {
-        List<Point> expected = testUtil.makePoints(new int[]{
-                'a', 2,
-                'a', 3,
-                'a', 4,
-        });
-        position = new Point('a', 1);
-        helper = new PieceHelper(position, 4);
-        List<Point> result = helper.findMovesByFactor(0, 1);
-        testUtil.assertListsContainEqualContent(expected, result);
-    }
-
-    @Test
-    public void findsCorrectMovesDownwards() {
-        List<Point> expected = testUtil.makePoints(new int[]{
-                'c', 4,
-                'c', 3,
-                'c', 2,
-                'c', 1
-        });
-        position = new Point('c', 5);
-        helper = new PieceHelper(position, 5);
-        List<Point> result = helper.findMovesByFactor(0, -1);
-        testUtil.assertListsContainEqualContent(expected, result);
     }
 }
