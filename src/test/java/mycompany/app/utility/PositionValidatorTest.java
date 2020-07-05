@@ -1,8 +1,6 @@
-package mycompany.app.pieces.utility;
+package mycompany.app.utility;
 
 import mycompany.app.exception.InvalidPositionException;
-import mycompany.app.utility.Point;
-import mycompany.app.utility.PositionValidator;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,5 +1,6 @@
 package mycompany.app.pieces;
 
+import lombok.EqualsAndHashCode;
 import mycompany.app.utility.Point;
 import mycompany.app.pieces.PieceHelper.MoveDirection;
 
