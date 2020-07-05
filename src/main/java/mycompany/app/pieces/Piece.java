@@ -10,15 +10,15 @@ import java.util.List;
 @Getter
 @EqualsAndHashCode
 public abstract class Piece {
-    private final int boardSize;
-    private final Point position;
-    @EqualsAndHashCode.Exclude private final PositionValidator validator;
 
-    public Piece(char x, int y, int boardSize) {
-        this.boardSize = boardSize;
+    private final Point position;
+
+    public Piece(int x, int y) {
         this.position = new Point(x, y);
-        this.validator = new PositionValidator(new Point(0, boardSize - 1));
-        validator.checkInRange(position);
+    }
+
+    public Piece(char x, int y) {
+        this.position = new Point(x, y);
     }
 
     public int getX() {
@@ -29,5 +29,11 @@ public abstract class Piece {
         return position.getY();
     }
 
-    abstract public List<Point> findPossibleMoves();
+    protected PieceHelper makePieceHelper(int size) {
+        Point range = new Point(0, size - 1);
+        PositionValidator validator = new PositionValidator(range);
+        return new PieceHelper(position, validator);
+    }
+
+    abstract public List<Point> findPossibleMoves(int size);
 }

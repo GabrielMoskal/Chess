@@ -35,9 +35,9 @@ public class RookTest {
                 'g', 1,
                 'h', 1
         });
-        rook = new Rook('a', 1, 8);
+        rook = new Rook('a', 1);
 
-        List<Point> result = rook.findPossibleMoves();
+        List<Point> result = rook.findPossibleMoves(8);
         testUtil.assertListsContainEqualContent(expected, result);
     }
 
@@ -59,19 +59,9 @@ public class RookTest {
                 'b', 4,
                 'a', 4
         });
-        rook = new Rook('c', 4, 8);
+        rook = new Rook('c', 4);
 
-        List<Point> result = rook.findPossibleMoves();
+        List<Point> result = rook.findPossibleMoves(8);
         testUtil.assertListsContainEqualContent(expected, result);
-    }
-
-    @Test(expected = InvalidPositionException.class)
-    public void xPositionValueHigherThanMaxIndexThrowsException() {
-        new Rook('c', 2, 2);
-    }
-
-    @Test(expected = InvalidPositionException.class)
-    public void yPositionValueHigherThanMaxIndexThrowsException() {
-        new Rook('b', 3, 2);
     }
 }

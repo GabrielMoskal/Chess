@@ -12,13 +12,11 @@ import static junit.framework.TestCase.assertNull;
 
 public class BoardTest {
 
-    private int size;
     private Board board;
 
     @Before
     public void setUp() {
-        this.size = 8;
-        board = new Board(size);
+        board = new Board(8);
     }
 
     @Test(expected = NegativeArraySizeException.class)
@@ -28,7 +26,7 @@ public class BoardTest {
 
     @Test
     public void addAndFindPieceWorks() {
-        Piece expected = new Rook('a', 1, size);
+        Piece expected = new Rook('a', 1);
         board.add(expected);
         Piece result = board.find(new Point('a', 1));
         assertSameClassAndEquals(expected, result);
@@ -41,7 +39,7 @@ public class BoardTest {
 
     @Test
     public void addAndFindOtherPieceWorks() {
-        Piece expected = new Bishop('b', 3, size);
+        Piece expected = new Bishop('b', 3);
         board.add(expected);
         Piece result = board.find(new Point('b', 3));
         assertSameClassAndEquals(expected, result);
@@ -74,13 +72,24 @@ public class BoardTest {
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void xAddHigherThanBoardSize() {
-        board.add(new Rook('i', 1, 9));
+        board.add(new Rook('i', 1));
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
     public void yAddHigherThanBoardSize() {
-        board.add(new Rook('a', 9, 9));
+        board.add(new Rook('a', 9));
     }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void xAddNegative() {
+        board.add(new Rook(-1, 1));
+    }
+
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void yAddNegative() {
+        board.add(new Rook(0, -1));
+    }
+
 
 //    @Test
 //    public void moveOfPieceChangeItsPosition() {

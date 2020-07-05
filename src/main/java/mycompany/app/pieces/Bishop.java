@@ -8,15 +8,18 @@ import java.util.List;
 
 public class Bishop extends Piece {
 
-    private final PieceHelper helper;
-
-    public Bishop(char x, int y, int boardSize) {
-        super(x, y, boardSize);
-        this.helper = new PieceHelper(this.getPosition(), this.getValidator());
+    public Bishop(int x, int y) {
+        super(x, y);
     }
 
-    public List<Point> findPossibleMoves() {
+    public Bishop(char x, int y) {
+        super(x, y);
+    }
+
+    @Override
+    public List<Point> findPossibleMoves(int size) {
         List<Point> points = new LinkedList<>();
+        PieceHelper helper = makePieceHelper(size);
 
         points.addAll(helper.findMovesByFactor(MoveDirection.UpRight));
         points.addAll(helper.findMovesByFactor(MoveDirection.UpLeft));

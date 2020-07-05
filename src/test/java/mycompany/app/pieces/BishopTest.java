@@ -28,9 +28,9 @@ public class BishopTest {
                 'g', 5,
                 'h', 6
         });
-        bishop = new Bishop('c', 1, 8);
+        bishop = new Bishop('c', 1);
 
-        List<Point> result = bishop.findPossibleMoves();
+        List<Point> result = bishop.findPossibleMoves(8);
         testUtil.assertListsContainEqualContent(expected, result);
     }
 
@@ -49,18 +49,8 @@ public class BishopTest {
                 'g', 5,
                 'h', 6
         });
-        bishop = new Bishop('e', 3, 8);
-        List<Point> result = bishop.findPossibleMoves();
+        bishop = new Bishop('e', 3);
+        List<Point> result = bishop.findPossibleMoves(8);
         testUtil.assertListsContainEqualContent(expected, result);
-    }
-
-    @Test(expected = InvalidPositionException.class)
-    public void xPositionValueHigherThanMaxIndexThrowsException() {
-        new Bishop('c', 2, 2);
-    }
-
-    @Test(expected = InvalidPositionException.class)
-    public void yPositionValueHigherThanMaxIndexThrowsException() {
-        new Bishop('b', 3, 2);
     }
 }
